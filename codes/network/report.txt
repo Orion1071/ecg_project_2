@@ -1,0 +1,60 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 1 files
+Detected 1 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: .\network.py
+--------------------------------------------------------------------------------
+.\network.py:404:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+================================================================================
+Detailed log follows:
+
+================================================================================
+--------------------------------------------------------------------------------
+Processing file '.\\network.py'
+ outputting to 'network_upgrade.py'
+--------------------------------------------------------------------------------
+
+129:8: INFO: Renamed 'tf.reset_default_graph' to 'tf.compat.v1.reset_default_graph'
+140:17: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+140:17: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+142:17: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+142:17: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+144:17: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+144:17: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+146:25: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+146:43: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+148:21: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+148:21: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+151:31: INFO: tf.train.exponential_decay requires manual check. To use learning rate decay schedules with TensorFlow 2.0, switch to the schedules in `tf.keras.optimizers.schedules`.
+
+151:31: INFO: Renamed 'tf.train.exponential_decay' to 'tf.compat.v1.train.exponential_decay'
+155:36: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+158:36: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+165:22: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+166:28: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+167:30: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+168:27: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+171:19: INFO: Added keywords to args of function 'tf.cond'
+193:35: INFO: Added keywords to args of function 'tf.transpose'
+197:15: INFO: Renamed 'tf.trainable_variables' to 'tf.compat.v1.trainable_variables'
+204:18: INFO: Changing labels arg of tf.nn.softmax_cross_entropy_with_logits to tf.stop_gradient(labels). Please check this transformation.
+
+208:15: INFO: Added keywords to args of function 'tf.reduce_mean'
+374:22: INFO: tf.summary.FileWriter requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+374:22: INFO: Renamed 'tf.summary.FileWriter' to 'tf.compat.v1.summary.FileWriter'
+374:59: INFO: Renamed 'tf.get_default_graph' to 'tf.compat.v1.get_default_graph'
+378:22: INFO: Renamed 'tf.Summary' to 'tf.compat.v1.Summary'
+394:15: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+395:17: INFO: Renamed 'tf.ConfigProto' to 'tf.compat.v1.ConfigProto'
+397:20: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+401:16: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+404:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+407:17: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+--------------------------------------------------------------------------------
+

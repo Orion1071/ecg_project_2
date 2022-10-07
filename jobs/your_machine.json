@@ -1,0 +1,13 @@
+{
+
+    "CNN_paper": {
+        "description": "CNN with the configuration from the paper",
+        "model": "CNN_paper",
+        "split": "split_5_6_14",
+        "log_en": "True",
+        "log_test_score": "True",
+        "cvids": [0,1,2,3,4]
+    }
+    
+
+}

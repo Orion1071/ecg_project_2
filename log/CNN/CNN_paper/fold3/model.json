@@ -1,0 +1,48 @@
+{
+    "data_augmentation": {
+        "awgn": false,
+        "reload_step": 5,
+        "resample_method": "random",
+        "resampling": true,
+        "zero_filter": true
+    },
+    "loss_function_parameters": {
+        "class_penalty": 0.2,
+        "l2_penalty": 0
+    },
+    "model_name": "CNN",
+    "model_parameters": {
+        "dilation_rates": [
+            1,
+            1,
+            1,
+            1
+        ],
+        "growth_block_end": 32,
+        "kernel_size": [
+            5,
+            5
+        ],
+        "max_pooling": false,
+        "n_channels_first": 32,
+        "n_conv_blocks": 6,
+        "strides_block_end": [
+            2,
+            2
+        ]
+    },
+    "preprocessing": {
+        "noverlap": 32,
+        "nperseg": 64,
+        "spectrogram": true
+    },
+    "training_parameters": {
+        "batch_size": 20,
+        "dataset_compensation": 0.2,
+        "drop_rate": 0.15,
+        "early_stop_wait": 100,
+        "exponential_decay": false,
+        "learning_rate": 0.001,
+        "validation_step": 5
+    }
+}

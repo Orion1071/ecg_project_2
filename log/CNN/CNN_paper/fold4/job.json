@@ -1,0 +1,10 @@
+{
+    "cvid": 4,
+    "description": "CNN with the configuration from the paper",
+    "log_en": "True",
+    "log_test_score": "True",
+    "model": "CNN_paper",
+    "name": "CNN_paper",
+    "split": "split_5_6_14",
+    "worker": "GPU0"
+}
