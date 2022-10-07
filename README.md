@@ -1,2 +1,2 @@
-# ecg_project_2
-Sanda Research project
+# ecg-project
+This is Sanda Honor Thesis for JMU CS and ENGR

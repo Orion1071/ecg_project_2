@@ -1,0 +1,12 @@
+scipy
+cycler
+numpy
+matplotlib
+parse
+protobuf
+pyparsing
+python-dateutil
+pytz
+scikit-learn
+six
+sklearn
