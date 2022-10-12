@@ -102,7 +102,6 @@ def run_worker(worker, queue):
     print('Worker ' + worker['name'] + ' starting. Output of this worker was redirected, to track it, open a new window and run ' +
             '\"tail -f ' + outpath + '\"')
     # redirect_output(outpath)
-    print("here")
     print('---------------------------------------------------------------------------')
     os.environ['CUDA_VISIBLE_DEVICES'] = worker['dev']
     print('GPU device', worker['dev'], 'used in process', os.getpid(), '( Worker', worker['name'], ')')
