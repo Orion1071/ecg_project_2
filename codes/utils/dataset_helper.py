@@ -13,6 +13,7 @@
 import os
 import sys
 import numpy as np
+from numpy import matlib as mb
 import scipy.io as sio
 import json
 import math
@@ -172,7 +173,7 @@ def batch_splitter(set_size, batch_s, shuffle=False, labels=None, compensation_f
             lst = []
             for idx, set in enumerate(sets):
                 scale = int(100*compensation_factor/class_distribution[idx]) + 1
-                set = np.matlib.repmat(set, scale, 1)
+                set = mb.repmat(set, scale, 1)
                 set = set.reshape([-1,1])
                 lst.append(set)
             set = np.vstack(lst)
