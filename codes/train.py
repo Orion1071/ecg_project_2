@@ -196,10 +196,17 @@ def trainCNN(job):
     converter = tf.lite.TFLiteConverter.from_keras_model(network)
     tflite_model = converter.convert()
 
+    print("-------------------------------")
+    print("-------------------------------")
+    print("-------------------------------")
+    print("Tensorflow lite saving")
     # Save the model.
     with open('/scratch/thurasx/ecg_project_2/model.tflite', 'wb') as f:
         f.write(tflite_model)
-
+    print("Tensorflow lite saved")
+    print("-------------------------------")
+    print("-------------------------------")
+    print("-------------------------------")
 # def trainHNNStage1(job):
 #     network = HNNStage1()
 #     network.load_job(job)
