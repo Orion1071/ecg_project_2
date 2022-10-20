@@ -17,6 +17,7 @@ import multiprocessing as mp
 import os
 import time
 import json
+import tensorflow as tf
 
 from network.cnn_upgrade import CNN
 from network.crnn_upgrade import CRNN
@@ -191,7 +192,13 @@ def trainCNN(job):
     network = CNN()
     network.load_job(job)
     network.build()
-    network.train(epochs=500, phase=0)
+    network.train(epochs=3, phase=0)
+    converter = tf.lite.TFLiteConverter.from_keras_model(network)
+    tflite_model = converter.convert()
+
+    # Save the model.
+    with open('/scratch/thurasx/ecg_project_2/model.tflite', 'wb') as f:
+        f.write(tflite_model)
 
 # def trainHNNStage1(job):
 #     network = HNNStage1()
