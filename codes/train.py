@@ -192,7 +192,7 @@ def trainCNN(job):
     network = CNN()
     network.load_job(job)
     network.build()
-    network.train(epochs=3, phase=0)
+    network.train(epochs=1, phase=0)
     converter = tf.lite.TFLiteConverter.from_keras_model(network)
     tflite_model = converter.convert()
 
