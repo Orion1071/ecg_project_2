@@ -193,6 +193,9 @@ def trainCNN(job):
     network.load_job(job)
     network.build()
     network.train(epochs=1, phase=0)
+    print("model_saving")
+    tf.saved_model.save(network, "saved_model_keras_dir")
+    print("model_saved")
     # converter = tf.lite.TFLiteConverter.from_keras_model(network)
     # tflite_model = converter.convert()
 
