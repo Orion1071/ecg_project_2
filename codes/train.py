@@ -193,16 +193,16 @@ def trainCNN(job):
     network.load_job(job)
     network.build()
     network.train(epochs=1, phase=0)
-    converter = tf.lite.TFLiteConverter.from_keras_model(network)
-    tflite_model = converter.convert()
+    # converter = tf.lite.TFLiteConverter.from_keras_model(network)
+    # tflite_model = converter.convert()
 
     print("-------------------------------")
     print("-------------------------------")
     print("-------------------------------")
     print("Tensorflow lite saving")
     # Save the model.
-    with open('/scratch/thurasx/ecg_project_2/model.tflite', 'wb') as f:
-        f.write(tflite_model)
+    # with open('/scratch/thurasx/ecg_project_2/model.tflite', 'wb') as f:
+    #     f.write(tflite_model)
     print("Tensorflow lite saved")
     print("-------------------------------")
     print("-------------------------------")
