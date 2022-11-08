@@ -278,6 +278,6 @@ h = model.fit_generator(generator = train_generator,
 
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_kerascnn_ecg_keras/history.csv')
+df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history.csv')
 
 
