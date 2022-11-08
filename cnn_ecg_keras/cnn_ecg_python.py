@@ -4,8 +4,8 @@ import os
 import h5py
 import matplotlib
 from matplotlib import pyplot as plt
-%matplotlib inline
-matplotlib.style.use('ggplot')
+# %matplotlib inline
+# matplotlib.style.use('ggplot')
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
