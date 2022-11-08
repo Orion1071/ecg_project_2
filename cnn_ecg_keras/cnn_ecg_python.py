@@ -40,7 +40,7 @@ data_root = os.path.normpath('.')
 #data_root = os.path.normpath('/home/ubuntu/projects/csproject')
 # hd_file = os.path.join(data_root, 'physio.h5')
 hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
-label_file = os.path.join(data_root, 'REFERENCE-v3.csv')
+label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 # Open hdf5 file
 h5file =  h5py.File(hd_file, 'r')
