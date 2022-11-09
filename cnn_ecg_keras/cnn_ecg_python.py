@@ -280,4 +280,4 @@ df = pd.DataFrame(h.history)
 df.head()
 df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history.csv')
 
-
+#tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python.py
