@@ -272,12 +272,19 @@ h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
                               epochs = 500,
                               validation_data = val_generator,
-                              validation_steps = 50, callbacks=[tensorboard_callback])
+                              validation_steps = 50, callbacks=[tensorboard_callback], verbose=1)
 
 
 
 df = pd.DataFrame(h.history)
 df.head()
 df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history.csv')
+
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras')
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/keras_ecg_cnn.tflite', 'wb+') as f:
+  f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python.py
