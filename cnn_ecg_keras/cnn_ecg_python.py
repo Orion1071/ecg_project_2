@@ -270,7 +270,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 
 h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
-                              epochs = 300,
+                              epochs = 500,
                               validation_data = val_generator,
                               validation_steps = 50, callbacks=[tensorboard_callback])
 
