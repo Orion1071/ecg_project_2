@@ -57,7 +57,7 @@ def fetch_h5data(h5file, index_list, sequence_length):
     for dset in load_list:
         
         data.append(extend_ts(h5file[dset]['ecgdata'][:, 0], sequence_length))
-
+    
     return np.vstack(data)
 
 # Convert ecgs into spectrogram

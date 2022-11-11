@@ -280,7 +280,7 @@ df = pd.DataFrame(h.history)
 df.head()
 df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history.csv')
 
-model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras')
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras.h5')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
