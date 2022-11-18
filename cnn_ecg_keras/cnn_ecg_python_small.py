@@ -214,7 +214,7 @@ filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
 depth = 1 # Number of convolutional layers in each convBlock
-n_blocks = 4 # Number of ConBlocks
+n_blocks = 2 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
