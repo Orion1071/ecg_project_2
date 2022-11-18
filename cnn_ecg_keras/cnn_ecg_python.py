@@ -42,6 +42,10 @@ data_root = os.path.normpath('.')
 hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
+# mac 
+# hd_file = "/Users/macbookpro/Documents/physio.h5"
+# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+
 # Open hdf5 file
 h5file =  h5py.File(hd_file, 'r')
 

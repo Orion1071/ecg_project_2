@@ -42,9 +42,9 @@ data_root = os.path.normpath('.')
 hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
-#window 
-# hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
-# label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+# mac 
+# hd_file = "/Users/macbookpro/Documents/physio.h5"
+# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 
 # Open hdf5 file
@@ -243,7 +243,7 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-# model.add(layers.Reshape((-1, 224)))
+model.add(layers.Reshape((-1, 96)))
 model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
