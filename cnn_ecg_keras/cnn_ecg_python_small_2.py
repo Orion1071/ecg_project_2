@@ -172,7 +172,7 @@ model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
 model.add(layers.Flatten())
-model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
+model.add(layers.Dense(4, activation='relu', kernel_regularizer = regularizers.l2(0.1)))
 
 
 model.summary()
@@ -185,7 +185,7 @@ model.compile(loss='categorical_crossentropy',
 
 h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
-                              epochs = 750,
+                              epochs = 2000,
                               validation_data = val_generator,
                               validation_steps = 50, verbose=1)
 
@@ -193,9 +193,9 @@ h = model.fit_generator(generator = train_generator,
 
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_2.csv')
+df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_3.csv')
 
-model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_small_2.h5')
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_small_3.h5')
 # converter = tf.lite.TFLiteConverter.from_keras_model(model)
 # tflite_model = converter.convert()
 
