@@ -171,18 +171,15 @@ model.add(layers.MaxPool2D(pool_size=(3,3)))
 model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
-# Alternative: Replace averaging by LSTM
-# And a fully connected layer for the output
+model.add(layers.Flatten())
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
 
 model.summary()
 
-
-import datetime 
 # Compile the model and run a batch through the network
 model.compile(loss='categorical_crossentropy',
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
+              optimizer=tf.keras.optimizers.Adam(),
               metrics=['acc'])
 
 
