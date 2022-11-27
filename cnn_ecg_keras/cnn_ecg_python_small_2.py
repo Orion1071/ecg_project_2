@@ -153,6 +153,9 @@ batch_idx = [0, 1, 2, 3, 4]
 fig = imshow_batch(X, y, batch_idx)
 plt.show()
 
+def MeanOverTime():
+    lam_layer = layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2]))
+    return lam_layer
 
 #model define
 #define model
@@ -165,14 +168,12 @@ model.add(layers.Conv2D(64, (5,5)))
 model.add(layers.Activation('relu'))
 model.add(layers.MaxPool2D(pool_size=(3,3)))
 
-model.add(layers.Dense(10))
-model.add(layers.Flatten())
-model.add(layers.Activation('relu'))
-model.add(layers.Dense(2))
+model.add(layers.core.Masking(mask_value = 0.0))
+model.add(MeanOverTime())
 
-model.add(layers.Activation('softmax'))
-
-model.compile(loss=tf.keras.losses.categorical_crossentropy, optimizer=tf.keras.optimizers.Adam(), metrics=['accuracy'])
+# Alternative: Replace averaging by LSTM
+# And a fully connected layer for the output
+model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
 
 model.summary()
@@ -184,15 +185,12 @@ model.compile(loss='categorical_crossentropy',
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
               metrics=['acc'])
 
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-
 
 h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
                               epochs = 750,
                               validation_data = val_generator,
-                              validation_steps = 50, callbacks=[tensorboard_callback], verbose=1)
+                              validation_steps = 50, verbose=1)
 
 
 
