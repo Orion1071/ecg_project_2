@@ -157,7 +157,7 @@ plt.show()
 #model define
 #define model
 model = Sequential()
-model.add(layers.Conv2D(64, (5,5), input_shape=(1000,1)))
+model.add(layers.Conv2D(64, (5,5), input_shape=(*dim, 1)))
 model.add(layers.Activation('relu'))
 model.add(layers.MaxPool2D(pool_size=(3,3)))
 
