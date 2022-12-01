@@ -175,7 +175,7 @@ filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
 depth = 2 # Number of convolutional layers in each convBlock, ori 4
-n_blocks = 1 # Number of ConBlocks, ori 6
+n_blocks = 2 # Number of ConBlocks, ori 6
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
@@ -205,7 +205,7 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-model.add(layers.Reshape((-1, 1632)))
+model.add(layers.Reshape((-1, 864)))
 model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
@@ -214,7 +214,6 @@ model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizer
 
 
 model.summary()
-
 
 model.compile(loss='categorical_crossentropy',
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),

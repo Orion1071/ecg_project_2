@@ -97,7 +97,7 @@ class DataGenerator(keras.utils.Sequence):
             # Assuming that the dataset names are unique (only 1 per label)
             y[i] = self.labels[ID]
 
-        return X, keras.utils.to_categorical(y, num_classes=self.n_classes)
+        return X.reshape(self.batch_size,570,-1), keras.utils.to_categorical(y, num_classes=self.n_classes)
     
  
 
