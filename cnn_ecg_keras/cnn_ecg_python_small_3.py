@@ -41,7 +41,7 @@ data_root = os.path.normpath('.')
 #data_root = os.path.normpath('/home/ubuntu/projects/csproject')
 # hd_file = os.path.join(data_root, 'physio.h5')
 # hd_file = "/Users/macbookpro/Documents/physio.h5"
-# label_file = os.path.join(data_root, 'REFERENCE-v3.csv')
+# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
@@ -174,7 +174,7 @@ layer_filters = filters_start # Start with these filters
 filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 2 # Number of convolutional layers in each convBlock, ori 4
+depth = 1 # Number of convolutional layers in each convBlock, ori 4
 n_blocks = 2 # Number of ConBlocks, ori 6
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
@@ -205,7 +205,7 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-model.add(layers.Reshape((-1, 864)))
+model.add(layers.Reshape((-1, 1632)))
 model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
