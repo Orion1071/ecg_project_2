@@ -207,8 +207,8 @@ for block in range(n_blocks):
 # Reshape to (batch, time steps, filters)
 # model.add(layers.Reshape((-1, 1152)))
 model.add(layers.core.Masking(mask_value = 0.0))
-# model.add(MeanOverTime())
-model.add(layers.Flatten())
+model.add(layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2])))
+# model.add(layers.Flatten())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
