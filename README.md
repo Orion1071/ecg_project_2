@@ -10,7 +10,7 @@ The embedded system that will used is ESP32 development S3 board.
 ___
 ## Goal 
 
-The goal of this research is to implement a machine learning model in a embedded system using tensorflow framework that can perform classification on device in real-time. The next step is to collect the data to compare the performance between the training computer and embedded system to classify the testing data. 
+The goal of this research is to implement a machine learning model in a embedded system using tensorflow framework that can perform classification on device in real-time. The next step is to collect the data to compare the performance between the training computer and embedded system to classify the testing data. It is in the interest to find out if there are any other ML model that is suitable than current CNN model, assuming it uses the same input data (not preprocessed data). At the end, it is in plan to develop the finished product must be able to take-in raw data, preprocess, classify all on the board.
 
 The standard benchmark will be the performance of the model specified in ths paper (https://arxiv.org/pdf/1710.06122.pdf). 
 
@@ -19,7 +19,7 @@ ___
 
 In this research, I will experiment if the following hypothesis is true. 
 The current model(M) is very big to implement on the embedded system. (Full model takes 14MB and available memory is 8MB)
-I hypothesize there exists a model (M') that is smaller than (M) to fit on the embedded system with an acceptable accuracy (>70%). I assume that as the model size gets bigger, the accuracy goes up as well as the prediction time. 
+I hypothesize that there exists a model (M') that is smaller than (M) to fit on the embedded system with an acceptable accuracy (>70%). I assume that as the model size gets bigger, the accuracy goes up as well as the classification time. I believe there exists a positive correlation between the model size and accuracy, classification time.
 
 
 
