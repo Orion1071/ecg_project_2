@@ -126,7 +126,7 @@ n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 #model defination
 # Convolutional blocks
-conv_parms = {'kernel_size': (3, 3),
+conv_parms = {'kernel_size': (5, 5),
                 'padding': 'same',
                 'dilation_rate': (1, 1),
                 'activation': None,
@@ -139,10 +139,10 @@ model.add(layers.Conv2D(filters = layer_filters,
                                     input_shape = input_shape, **conv_parms))
 model.add(layers.BatchNormalization(center = True, scale = True))
 model.add(layers.Activation('relu'))
-model.add(layers.Conv2D(filters = layer_filters,
-                                    strides = strides_start, **conv_parms))
-model.add(layers.BatchNormalization(center = True, scale = True))
-model.add(layers.Activation('relu'))
+# model.add(layers.Conv2D(filters = layer_filters,
+#                                     strides = strides_start, **conv_parms))
+# model.add(layers.BatchNormalization(center = True, scale = True))
+# model.add(layers.Activation('relu'))
 model.add(layers.MaxPool2D(10,10))
 model.add(layers.Flatten())
 # And a fully connected layer for the output
