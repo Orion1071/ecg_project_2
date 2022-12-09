@@ -204,7 +204,7 @@ for block in range(n_blocks):
 model.add(layers.core.Masking(mask_value = 0.0))
 # model.add(layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2])))
 
-model.add(layers.MaxPool2D(33,32))
+model.add(layers.MaxPool2D(9,128))
 model.add(layers.Flatten())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
