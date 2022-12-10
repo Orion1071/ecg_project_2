@@ -185,10 +185,8 @@ def MeanOverTime():
 # Define the model
 model = Sequential()
 model.add(layers.Conv2D(20, kernel_size =(5,5), input_shape = input_shape, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
-model.add(layers.Conv2D(20, kernel_size =(5,5), padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
+model.add(layers.Conv2D(20, kernel_size =(5,5), padding= "same", dilation_rate= (1, 1), kernel_initializer= "glorot_normal"))
 model.add(layers.core.Masking(mask_value = 0.0)) 
-model.add(layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2])))
-model.add(layers.Flatten())
 model.add(layers.Dense(4, activation='relu', kernel_regularizer = regularizers.l2(0.1)))
 
 model.summary()
@@ -197,7 +195,7 @@ model.compile(loss='categorical_crossentropy',
             optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
             metrics=['acc'])
               
-h = model.fit(train_generator,
+h = model.fit(x=train_generator,
                             steps_per_epoch = 50,
                             epochs = 10,
                             validation_data = val_generator,
