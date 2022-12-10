@@ -131,11 +131,98 @@ conv_parms = {'kernel_size': (5, 5),
                 'dilation_rate': (1, 1),
                 'kernel_initializer': 'glorot_normal'}
 #build model
+#model defination
+# Convolutional blocks
+def conv2d_block(model, depth, layer_filters, filters_growth, 
+                 strides_start, strides_end, input_shape, first_layer = False):
+    
+    ''' Convolutional block. 
+    depth: number of convolutional layers in the block (4)
+    filters: 2D kernel size (32)
+    filters_growth: kernel size increase at the end of block (32)
+    first_layer: provide input_shape for first layer'''
+    
+    # Fixed parameters for convolution
+    conv_parms = {'kernel_size': (3, 3),
+                  'padding': 'same',
+                  'dilation_rate': (1, 1),
+                  'activation': None,
+                  'data_format': 'channels_last',
+                  'kernel_initializer': 'glorot_normal'}
+
+    for l in range(depth):
+
+        if first_layer:
+            
+            # First layer needs an input_shape 
+            model.add(layers.Conv2D(filters = layer_filters,
+                                    strides = strides_start,
+                                    input_shape = input_shape, **conv_parms))
+            first_layer = False
+        
+        else:
+            # All other layers will not need an input_shape parameter
+            if l == depth - 1:
+                # Last layer in each block is different: adding filters and using stride 2
+                layer_filters += filters_growth
+                model.add(layers.Conv2D(filters = layer_filters,
+                                        strides = strides_end, **conv_parms))
+            else:
+                model.add(layers.Conv2D(filters = layer_filters,
+                                        strides = strides_start, **conv_parms))
+        
+        # Continue with batch normalization and activation for all layers in the block
+        model.add(layers.BatchNormalization(center = True, scale = True))
+        model.add(layers.Activation('relu'))
+    
+    return model
+
+def MeanOverTime():
+    lam_layer = layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2]))
+    return lam_layer
+
+
+# Define the model
+# Model parameters
+filters_start = 32 # Number of convolutional filters
+layer_filters = filters_start # Start with these filters
+filters_growth = 32 # Filter increase after each convBlock
+strides_start = (1, 1) # Strides at the beginning of each convBlock
+strides_end = (2, 2) # Strides at the end of each convBlock
+depth = 1 # Number of convolutional layers in each convBlock, ori 4
+n_blocks = 3 # Number of ConBlocks, ori 6
+n_channels = 1 # Number of color channgels
+input_shape = (*dim, n_channels) # input shape for first layer
+
+
+#build model
 model = Sequential()
-model.add(layers.Conv2D(input_shape = input_shape, **conv_parms))
-model.add(layers.BatchNormalization(center = True, scale = True))
-model.add(layers.Activation('relu'))
-model.add(layers.MaxPool2D(10,10))
+
+for block in range(n_blocks):
+
+    # Provide input only for the first layer
+    if block == 0:
+        provide_input = True
+    else:
+        provide_input = False
+    
+    model = conv2d_block(model, depth,
+                         layer_filters,
+                         filters_growth,
+                         strides_start, strides_end,
+                         input_shape,
+                         first_layer = provide_input)
+    
+    # Increase the number of filters after each block
+    layer_filters += filters_growth
+
+
+
+# Remove the frequency dimension, so that the output can feed into LSTM
+# Reshape to (batch, time steps, filters)
+# model.add(layers.Reshape((-1, 1152)))
+model.add(layers.core.Masking(mask_value = 0.0))
+model.add(layers.Softmax((100,100)))
 model.add(layers.Flatten())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
