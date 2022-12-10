@@ -184,8 +184,8 @@ def MeanOverTime():
 
 # Define the model
 model = Sequential()
-model.add(layers.Conv2D(20, (5,5), input_shape = input_shape, filters = layer_filters, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
-model.add(layers.Conv2D(20, (5,5), filters = layer_filters + 32, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
+model.add(layers.Conv2D(20, kernel_size =(5,5), input_shape = input_shape, filters = layer_filters, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
+model.add(layers.Conv2D(20, kernel_size =(5,5), filters = layer_filters + 32, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
 model.add(layers.core.Masking(mask_value = 0.0)) 
 model.add(layers.Dense(4, activation='relu', kernel_regularizer = regularizers.l2(0.1)))
 
