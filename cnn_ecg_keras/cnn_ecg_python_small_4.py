@@ -183,49 +183,10 @@ def MeanOverTime():
 
 
 # Define the model
-# Model parameters
-filters_start = 32 # Number of convolutional filters
-layer_filters = filters_start # Start with these filters
-filters_growth = 32 # Filter increase after each convBlock
-strides_start = (1, 1) # Strides at the beginning of each convBlock
-strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 2 # Number of convolutional layers in each convBlock, ori 4
-n_blocks = 3 # Number of ConBlocks, ori 6
-n_channels = 1 # Number of color channgels
-input_shape = (*dim, n_channels) # input shape for first layer
-
-
-#build model
 model = Sequential()
-
-for block in range(n_blocks):
-
-    # Provide input only for the first layer
-    if block == 0:
-        provide_input = True
-    else:
-        provide_input = False
-    
-    model = conv2d_block(model, depth,
-                         layer_filters,
-                         filters_growth,
-                         strides_start, strides_end,
-                         input_shape,
-                         first_layer = provide_input)
-    
-    # Increase the number of filters after each block
-    layer_filters += filters_growth
-
-
-
-# Remove the frequency dimension, so that the output can feed into LSTM
-# Reshape to (batch, time steps, filters)
-# model.add(layers.Reshape((-1, 5 * 128)))
-model.add(layers.core.Masking(mask_value = 0.0))
-
-# And a fully connected layer for the output
-model.add(layers.Lambda(lambda x: K.mean(x, axis=1), output_shape=lambda s: (1, s[2])))
-model.add(layers.Flatten())
+model.add(layers.Conv2D(20, (5,5), input_shape = input_shape, filters = layer_filters, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
+model.add(layers.Conv2D(20, (5,5), filters = layer_filters + 32, padding= "same", dilation_rate= (1, 1), kernel_initializer= 'glorot_normal'))
+model.add(layers.core.Masking(mask_value = 0.0)) 
 model.add(layers.Dense(4, activation='relu', kernel_regularizer = regularizers.l2(0.1)))
 
 model.summary()
