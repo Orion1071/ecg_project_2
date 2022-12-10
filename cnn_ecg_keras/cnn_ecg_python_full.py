@@ -64,9 +64,6 @@ encoder = LabelEncoder().fit(label_set)
 label_set_codings = encoder.transform(label_set)
 label_df = label_df.assign(encoded = encoder.transform(label_df.label))
 
-print('Unique labels:', encoder.inverse_transform(label_set_codings))
-print('Unique codings:', label_set_codings)
-print('Dataset labels:\n', label_df.iloc[100:110,])
 
 # Split the IDs in training and validation set
 test_split = 0.33
@@ -231,11 +228,11 @@ model.compile(loss='categorical_crossentropy',
 
 
 
-h = model.fit_generator(generator = train_generator,
-                              steps_per_epoch = 50,
-                              epochs = 750,
-                              validation_data = val_generator,
-                              validation_steps = 50, verbose=1)
+h = model.fit(train_generator,
+            steps_per_epoch = 50,
+            epochs = 2000,
+            validation_data = val_generator,
+            validation_steps = 50, verbose=1)
 
 
 
