@@ -221,7 +221,7 @@ for block in range(n_blocks):
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
 # model.add(layers.Reshape((-1, 1152)))
-model.add(layers.core.Masking(mask_value = 0.0))
+# model.add(layers.core.Masking(mask_value = 0.0))
 model.add(layers.Softmax((72,5)))
 model.add(layers.Flatten())
 # And a fully connected layer for the output
