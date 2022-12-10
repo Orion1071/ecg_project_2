@@ -99,9 +99,7 @@ batch_size = 32
 data = fetch_h5data(h5file, [0], sequence_length)
 _, _, Sxx = spectrogram(data, nperseg = spectrogram_nperseg, noverlap = spectrogram_noverlap)
 dim = Sxx[0].shape
-print(dim)
-print(Sxx.shape)
-# print('Maximum sequence length:', max_length)
+
 
 
 
@@ -116,43 +114,6 @@ params = {'batch_size': batch_size,
 
 train_generator = DataGenerator(h5file, partition['train'], labels, augment = True, **params)
 val_generator = DataGenerator(h5file, partition['validation'], labels, augment = False, **params)
-
-for i, batch in enumerate(train_generator):
-    if i == 1:
-        break
-
-X = batch[0]
-y = batch[1]
-
-print('X shape:', X.shape)
-print('y shape:', y.shape)
-print('X type:', np.dtype(X[0,0,0,0]))
-
-#batch generator
-
-def imshow_batch(X, y, batch_idx):
-    
-    batch_labels = ['Class label:' + str(np.argmax(y[idx,])) for idx in batch_idx]
-    #batch_labels = ['Class label:' + str(np.argmax(y[idx,])[0]) for idx in batch_idx]
-
-    fig, ax = plt.subplots(1, len(batch_idx), figsize = (15, 3))
-
-    for i, idx in enumerate(batch_idx):
-    
-        ax[i].imshow(X[idx, :, :, 0].transpose(), cmap = 'jet', aspect = 'auto')
-        ax[i].grid(False)
-        #ax[i].axis('off')
-        ax[i].invert_yaxis()
-        ax[i].set(title = batch_labels[i])
-    
-    plt.show()
-        
-    return fig
-
-batch_idx = [0, 1, 2, 3, 4]
-fig = imshow_batch(X, y, batch_idx)
-plt.show()
-
 
 #model define
 
@@ -207,18 +168,19 @@ def MeanOverTime():
 
 
 # Define the model
+# Define the model
 # Model parameters
 filters_start = 32 # Number of convolutional filters
 layer_filters = filters_start # Start with these filters
 filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 1 # Number of convolutional layers in each convBlock
-n_blocks = 2 # Number of ConBlocks
+depth = 4 # Number of convolutional layers in each convBlock
+n_blocks = 6 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
-
+print("Data Input Shape : ", input_shape)
 model = Sequential()
 
 for block in range(n_blocks):
@@ -243,7 +205,7 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-model.add(layers.Reshape((-1, 96)))
+model.add(layers.Reshape((-1, 224)))
 model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
@@ -262,34 +224,30 @@ model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizer
 
 model.summary()
 
-
-import datetime 
 # Compile the model and run a batch through the network
 model.compile(loss='categorical_crossentropy',
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
               metrics=['acc'])
 
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 
 h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
                               epochs = 750,
                               validation_data = val_generator,
-                              validation_steps = 50, callbacks=[tensorboard_callback], verbose=1)
+                              validation_steps = 50, verbose=1)
 
 
 
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small.csv')
+df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_full.csv')
 
-model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_small.h5')
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_full.h5')
+# converter = tf.lite.TFLiteConverter.from_keras_model(model)
+# tflite_model = converter.convert()
 
-with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/keras_ecg_cnn_small.tflite', 'wb+') as f:
-  f.write(tflite_model)
+# with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/keras_ecg_cnn_small.tflite', 'wb+') as f:
+#   f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
