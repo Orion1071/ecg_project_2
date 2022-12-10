@@ -222,7 +222,7 @@ for block in range(n_blocks):
 # Reshape to (batch, time steps, filters)
 # model.add(layers.Reshape((-1, 1152)))
 model.add(layers.core.Masking(mask_value = 0.0))
-model.add(layers.Softmax())
+model.add(layers.Softmax((5, 128)))
 model.add(layers.Flatten())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
