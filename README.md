@@ -42,7 +42,8 @@ ___
 | 2022 Nov 3rd week (Thanksgiving week)| We order new board with 8mb ram, I prepare the data with labels from ptb_xl, train a lot of mini CNN model and NN model with new data and implement on the board. All success except I do not know how to send data in real_time through serial port. |
 | 2022 Nov 4th week | I got off-track, Dr. Forsyth push me to stop using new data and focus on using the existing model, he asked me to tweak the existing model. He helped me with sending the series of data. I got the new code from him, tested with sending tiny bit of data. it was success, Downside, it takes 4 mins to send 780 data points, over 30 mins to send 18810 data points. |
 |2022 Dec 1st week| I found out my current tflite library is out of date and do not have functions I need, upgrade the tflite library to latest (as of Dec 2022), still missing one function I need, modify the cnn keras model to see if I removed the model, Reevaluating the hypothesis to design the experimental model. Working with Dr. Molloy to evaluate the hypothesis. |
-|2022 Dec 2nd week | 
+|2022 Dec 2nd week | Model is small enough to put on esp32, but it requested 2MB of ram, available is only 300kB. cannot allocate tensor, have to wait for Dr. Forsyth on next step. Finding other way I can test it out. Retrained original full model, 90% accuracy, 81% validation|
+|2022 Dec 3rd week | |
 
 
 
