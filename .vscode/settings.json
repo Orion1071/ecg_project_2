@@ -1,0 +1,3 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/tflite_cnn_mnist/.pio/libdeps/esp32-s3-devkitc-1/Unity"
+}

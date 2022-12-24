@@ -7,19 +7,42 @@ At this moment, I will focus on the machine learning model that can classify AF 
 
 The embedded system that will used is ESP32 development S3 board.
 
-___
+
 ## Goal 
+___
 
 The goal of this research is to implement a machine learning model in a embedded system using tensorflow framework that can perform classification on device in real-time. The next step is to collect the data to compare the performance between the training computer and embedded system to classify the testing data. It is in the interest to find out if there are any other ML model that is suitable than current CNN model, assuming it uses the same input data (not preprocessed data). At the end, it is in plan to develop the finished product must be able to take-in raw data, preprocess, classify all on the board.
 
 The standard benchmark will be the performance of the model specified in ths paper (https://arxiv.org/pdf/1710.06122.pdf). 
 
+During the experiments, the following data will be collected: size, performance (accuracy), energy consumption, optimizations of the machine learning algorithms.
+
+## Testing workflow
 ___
+
+``` 
+Preprocessed data (computer) -> serial connection -> board -> ML classification -> results -> serial connection -> data collection(computer)
+```
+
+
+
 ## Hypothesis 
+___
 
 In this research, I will experiment if the following hypothesis is true. 
 The current model(M) is very big to implement on the embedded system. (Full model takes 14MB and available memory is 8MB)
-I hypothesize that there exists a model (M') that is smaller than (M) to fit on the embedded system with an acceptable accuracy (>70%). I assume that as the model size gets bigger, the accuracy goes up as well as the classification time. I believe there exists a positive correlation between the model size and accuracy, classification time.
+I hypothesize that there exists a model (M') that is smaller than (M) to fit on the embedded system with an acceptable accuracy (>70%). I assume that as the model size gets bigger, the accuracy goes up as well as the classification time. I believe there exists a positive correlation between the model size and accuracy, classification time. 
+
+The second hypothesis is that "It is feasible to develop a 'low cost wearable system' that is able to classify heart diseases". Using the data and results from our experiments, I will prove that the hypothesis is feasible. If the testing workflow is working, we can say that the ML model on the embedded system is working. Assuming we have functions on the board that can preprocess that data, if the preprocessed data on the board is the same as the preprocessed data on the computer, we can say the ML model on the embedded system will work as is the testing. 
+
+
+
+
+1) How are machine learning models, developed on a PC, impacted by porting to embedded systems? We discussed this in various metrics of: size, performance, energy consumption..etc.
+2) What machine learning optimizations are available to mitigate the impacts of porting the algorithm?
+3) Once the models are ported, how might they be validated on the target system?
+
+From these questions, you still need to answer the final question (4) of whether our goal of developing a “low-cost wearable system” is feasible or not. 
 
 
 
