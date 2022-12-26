@@ -1,5 +1,5 @@
 #include "cnn_model.h"
-#include "cnn_mnist_model.h"
+#include "models/cnn_mnist_model.h"
 
 
 #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -9,6 +9,7 @@
 #include "tensorflow/lite/core/api/error_reporter.h"
 
 
+/*
 
 const int kArenaSize = 40000;
   
@@ -64,3 +65,5 @@ float cnn_model::predict()
     interpreter->Invoke();
     return output->data.f[0];
 }
+
+*/
