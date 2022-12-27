@@ -1,0 +1,7 @@
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/unity.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/edit_cache.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/rebuild_cache.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/list_install_components.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/install.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/install/local.dir
+C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/install/strip.dir

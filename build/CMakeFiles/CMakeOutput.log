@@ -1,0 +1,22 @@
+The system is: Windows - 10.0.22000 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is Clang, found in "C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/3.23.22060601-MSVC_2/CompilerIdC/CMakeCCompilerId.o"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/PROGRA~1/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_48e97 && [1/2] Building C object CMakeFiles/cmTC_48e97.dir/CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_48e97.exe
+
+
+

@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build",
+  "command": "\"C:\\PROGRA~1\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\bin\\clang.exe\" -IC:/Users/sanda/Documents/esp_dev_files/ecg_project_2/tflite_cnn_mnist/.pio/libdeps/esp32-s3-devkitc-1/Unity/src -IC:/Users/sanda/Documents/esp_dev_files/ecg_project_2/build -g -Xclang -gcodeview -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -Wcast-align -Wcast-qual -Wconversion -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn -Wmissing-prototypes -Wno-missing-braces -Wold-style-cast -Wshadow -Wweak-vtables -Werror -Wall -std=c11 -o CMakeFiles\\unity.dir\\src\\unity.c.obj -c C:\\Users\\sanda\\Documents\\esp_dev_files\\ecg_project_2\\tflite_cnn_mnist\\.pio\\libdeps\\esp32-s3-devkitc-1\\Unity\\src\\unity.c",
+  "file": "C:\\Users\\sanda\\Documents\\esp_dev_files\\ecg_project_2\\tflite_cnn_mnist\\.pio\\libdeps\\esp32-s3-devkitc-1\\Unity\\src\\unity.c"
+}
+]
