@@ -172,8 +172,8 @@ layer_filters = filters_start # Start with these filters
 filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 2 # Number of convolutional layers in each convBlock
-n_blocks = 4 # Number of ConBlocks
+depth = 4 # Number of convolutional layers in each convBlock
+n_blocks = 2 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
@@ -202,7 +202,7 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-model.add(layers.Reshape((-1, 480)))
+model.add(layers.Reshape((-1, 864)))
 model.add(layers.core.Masking(mask_value = 0.01))
 model.add(MeanOverTime())
 
@@ -244,7 +244,7 @@ df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_full.csv')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
-with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_2.tflite', 'wb+') as f:
+with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_3.tflite', 'wb+') as f:
     f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py

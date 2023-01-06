@@ -161,7 +161,7 @@ model.compile(loss='categorical_crossentropy',
 
 h = model.fit_generator(generator = train_generator,
                               steps_per_epoch = 50,
-                              epochs = 1,
+                              epochs = 1000,
                               validation_data = val_generator,
                               validation_steps = 50, verbose=1)
 

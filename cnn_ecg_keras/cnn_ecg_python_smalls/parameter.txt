@@ -1,3 +1,7 @@
 File_names, hyper_parameter
 
-cnn_ecg_1
+cnn_ecg_1 (custom NN)- 2 layers
+
+cnn_ecg_2 - depth 2, block 4, 641956 parameters
+
+cnn_ecg_3 - depth 4, block 2, 208740 parameters
