@@ -5,3 +5,9 @@ cnn_ecg_1 (custom NN)- 2 layers
 cnn_ecg_2 - depth 2, block 4, 641956 parameters
 
 cnn_ecg_3 - depth 4, block 2, 208740 parameters
+
+cnn_ecg_4 - depth 2, block 2, 115620 parameters
+
+cnn_ecg_5 - depth 1, block 4, 328132 parameters
+
+cnn_ecg_6 - depth 1, block 3, 144420 parameters
