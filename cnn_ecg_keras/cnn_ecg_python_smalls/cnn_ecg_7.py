@@ -204,7 +204,7 @@ for block in range(n_blocks):
 # Reshape to (batch, time steps, filters)
 model.add(layers.Reshape((-1, 1088)))
 model.add(layers.core.Masking(mask_value = 0.01))
-model.add(MeanOverTime())
+# model.add(MeanOverTime())
 
 # Alternative: Replace averaging by LSTM
 
