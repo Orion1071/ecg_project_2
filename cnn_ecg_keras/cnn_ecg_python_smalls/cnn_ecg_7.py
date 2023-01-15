@@ -43,8 +43,8 @@ hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 # mac 
-# hd_file = "/Users/macbookpro/Documents/physio.h5"
-# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+hd_file = "/Users/macbookpro/Documents/physio.h5"
+label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 
 # Open hdf5 file
@@ -214,7 +214,7 @@ model.add(layers.core.Masking(mask_value = 0.01))
 # Add LSTM layer with 3 neurons
 #model.add(layers.LSTM(200))
 #model.add(layers.Flatten())
-
+model.add(layers.Flatten())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
