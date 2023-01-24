@@ -39,12 +39,12 @@ data_root = os.path.normpath('.')
 #data_root = os.path.normpath('/media/sf_vbshare/physionet_data/')
 #data_root = os.path.normpath('/home/ubuntu/projects/csproject')
 # hd_file = os.path.join(data_root, 'physio.h5')
-hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
-label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+# hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
+# label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 # mac 
-# hd_file = "/Users/macbookpro/Documents/physio.h5"
-# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+hd_file = "/Users/macbookpro/Documents/physio.h5"
+label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 
 # Open hdf5 file
@@ -203,8 +203,8 @@ for block in range(n_blocks):
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
 model.add(layers.Reshape((-1, 480)))
-model.add(layers.core.Masking(mask_value = 0.01))
-model.add(MeanOverTime())
+model.add(layers.core.Masking(mask_value = 0.00))
+# model.add(MeanOverTime())
 
 # Alternative: Replace averaging by LSTM
 
@@ -213,13 +213,14 @@ model.add(MeanOverTime())
 
 # Add LSTM layer with 3 neurons
 #model.add(layers.LSTM(200))
-#model.add(layers.Flatten())
+model.add(layers.Flatten())
 
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
 
-model.summary()
+
+
 
 # Compile the model and run a batch through the network
 model.compile(loss='categorical_crossentropy',
@@ -227,7 +228,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['acc'])
 
 
-
+model.summary()
 h = model.fit(train_generator,
             steps_per_epoch = 50,
             epochs = 1000,
@@ -248,3 +249,4 @@ with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/ke
     f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
+

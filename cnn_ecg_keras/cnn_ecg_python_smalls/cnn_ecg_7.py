@@ -203,7 +203,7 @@ for block in range(n_blocks):
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
 model.add(layers.Reshape((-1, 1088)))
-model.add(layers.core.Masking(mask_value = 0.01))
+model.add(layers.core.Masking(mask_value = 0.00))
 # model.add(MeanOverTime())
 
 # Alternative: Replace averaging by LSTM
