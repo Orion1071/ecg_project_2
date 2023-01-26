@@ -215,7 +215,7 @@ model.add(layers.Reshape((-1, 480)))
 
 # Add LSTM layer with 3 neurons
 #model.add(layers.LSTM(200))
-# model.add(layers.Flatten())
+model.add(layers.Flatten())
 
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
