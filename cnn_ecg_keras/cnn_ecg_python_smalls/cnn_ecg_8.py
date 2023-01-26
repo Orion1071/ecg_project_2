@@ -204,7 +204,7 @@ for block in range(n_blocks):
 # Reshape to (batch, time steps, filters)
 model.add(layers.Reshape((-1, 480)))
 model.add(layers.core.Masking(mask_value = 0.00))
-model.add(MeanOverTime())
+# model.add(MeanOverTime())
 
 
 
@@ -215,7 +215,7 @@ model.add(MeanOverTime())
 
 # Add LSTM layer with 3 neurons
 #model.add(layers.LSTM(200))
-# model.add(layers.Flatten())
+model.add(layers.Flatten())
 
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
@@ -233,7 +233,7 @@ model.compile(loss='categorical_crossentropy',
 model.summary()
 h = model.fit(train_generator,
             steps_per_epoch = 50,
-            epochs = 1000,
+            epochs = 10,
             validation_data = val_generator,
             validation_steps = 50, verbose=1)
 
@@ -241,13 +241,13 @@ h = model.fit(train_generator,
 
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_2.csv')
+df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_8.csv')
 
-# model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_full.h5')
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_8.h5')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
-with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_2.tflite', 'wb+') as f:
+with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_8.tflite', 'wb+') as f:
     f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
