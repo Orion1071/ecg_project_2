@@ -43,8 +43,8 @@ hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 # mac 
-# hd_file = "/Users/macbookpro/Documents/physio.h5"
-# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+hd_file = "/Users/macbookpro/Documents/physio.h5"
+label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 
 # Open hdf5 file
@@ -173,7 +173,7 @@ filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
 depth = 2 # Number of convolutional layers in each convBlock
-n_blocks = 4 # Number of ConBlocks
+n_blocks = 3 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
