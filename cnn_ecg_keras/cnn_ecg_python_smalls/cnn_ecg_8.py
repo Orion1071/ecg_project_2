@@ -173,7 +173,7 @@ filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
 depth = 2 # Number of convolutional layers in each convBlock
-n_blocks = 3 # Number of ConBlocks
+n_blocks = 4 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
@@ -204,7 +204,7 @@ for block in range(n_blocks):
 # Reshape to (batch, time steps, filters)
 model.add(layers.Reshape((-1, 480)))
 # model.add(layers.core.Masking(mask_value = 0.00))
-# model.add(MeanOverTime())
+model.add(MeanOverTime())
 
 
 
@@ -215,7 +215,7 @@ model.add(layers.Reshape((-1, 480)))
 
 # Add LSTM layer with 3 neurons
 #model.add(layers.LSTM(200))
-model.add(layers.Flatten())
+# model.add(layers.Flatten())
 
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
