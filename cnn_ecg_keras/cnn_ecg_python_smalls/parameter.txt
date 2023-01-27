@@ -14,4 +14,4 @@ cnn_ecg_6 - depth 1, block 3, 144420 parameters
 
 cnn_ecg_7 - depth 3, block 1, 32932 parameters
 
-cnn_ecg_8 - depth 2, block 4, no mask, 709,156 parameters
+cnn_ecg_8 - depth 2, block 3, no mask, no means, 709156 parameters
