@@ -4,6 +4,7 @@ import os
 import h5py
 import matplotlib
 from matplotlib import pyplot as plt
+import pickle
 # %matplotlib inline
 # matplotlib.style.use('ggplot')
 
@@ -11,15 +12,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 # Keras
-import keras
-from keras.models import Sequential
-from keras import layers
-from keras import optimizers
-from keras import backend as K
-from keras import regularizers
+# import keras
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
+from tensorflow.keras import optimizers
+from tensorflow.keras import backend as K
+from tensorflow.keras import regularizers
 
 # Tensorflow
-import tensorflow as tf
+
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
 
@@ -30,7 +32,7 @@ from physionet_processing import (fetch_h5data, spectrogram,
 from physionet_generator import DataGenerator
 
 print('Tensorflow version:', tf.__version__)
-print('Keras version:', keras.__version__)
+# print('Keras version:', keras.__version__)
 
 #Open hdf5 file, load the labels and define training/validation splits
 
@@ -66,18 +68,26 @@ label_df = label_df.assign(encoded = encoder.transform(label_df.label))
 
 
 # Split the IDs in training and validation set
-test_split = 0.33
+test_split = 0.44
 idx = np.arange(label_df.shape[0])
 id_train, id_val, _, _ = train_test_split(idx, idx, 
-                                         test_size = test_split,
-                                         shuffle = True,
-                                         random_state = 123)
-
+                                        test_size = test_split,
+                                        shuffle = True,
+                                        random_state = 123)
+val_split = 0.3
+id_val, id_test, _ , _ = train_test_split(id_val, id_val, 
+                                        test_size = val_split,
+                                        shuffle = True,
+                                        random_state = 123)
 # Store the ids and labels in dictionaries
 partition = {'train': list(label_df.iloc[id_train,].name), 
-             'validation': list(label_df.iloc[id_val,].name)}
+            'validation': list(label_df.iloc[id_val,].name), 
+            'test': list(label_df.iloc[id_test,].name)}
 
 labels = dict(zip(label_df.name, label_df.encoded))
+
+with open("/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/cnn_small_9_testlabel.pcl", "wb") as f:
+    pickle.dump(partition["test"], f)
 
 #set up batch generator
 # Parameters needed for the batch generator
@@ -173,7 +183,7 @@ filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
 depth = 2 # Number of convolutional layers in each convBlock
-n_blocks = 3 # Number of ConBlocks
+n_blocks = 4 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
