@@ -282,15 +282,15 @@ h = model.fit(train_generator,
             steps_per_epoch = 50,
             epochs = 1000,
             validation_data = val_generator,
-            validation_steps = 50, verbose=1)
+            validation_steps = 21, verbose=1)
 
 
 
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10.h5')
 df = pd.DataFrame(h.history)
 df.head()
 df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_10.csv')
 
-model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10.h5')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
