@@ -109,7 +109,7 @@ assert(len(test_data) == random_count_test * 4)
 print(len(test_data), random_count_test * 4)
 
 # Split the IDs in training and validation set
-test_split = 0.70
+test_split = 0.30
 idx = np.arange(label_df.shape[0])
 id_train, id_val, _, _ = train_test_split(train_data, train_data, 
                                         test_size = test_split,
@@ -137,7 +137,7 @@ sequence_length = max_length
 spectrogram_nperseg = 64 # Spectrogram window
 spectrogram_noverlap = 32 # Spectrogram overlap
 n_classes = len(label_df.label.unique())
-batch_size = 32
+batch_size = 15
 
 # calculate image dimensions
 data = fetch_h5data(h5file, [0], sequence_length)
