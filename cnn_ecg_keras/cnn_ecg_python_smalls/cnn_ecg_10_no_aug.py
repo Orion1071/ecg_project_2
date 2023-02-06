@@ -123,7 +123,7 @@ partition = { 'train' : id_train,
 
 labels = dict(zip(label_df.name, label_df.encoded))
 
-with open("/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_testing/cnn_small_10_testlabel.pcl", "wb") as f:
+with open("/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_testing/cnn_small_10_no_aug_testlabel.pcl", "wb") as f:
     pickle.dump(partition["test"], f)
 
 #set up batch generator
@@ -286,15 +286,15 @@ h = model.fit(train_generator,
 
 
 
-model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10.h5')
+model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10_no_aug.h5')
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_10.csv')
+df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_10_no_aug.csv')
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
-with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10.tflite', 'wb+') as f:
+with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_10_no_aug.tflite', 'wb+') as f:
     f.write(tflite_model)
 
 #tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
