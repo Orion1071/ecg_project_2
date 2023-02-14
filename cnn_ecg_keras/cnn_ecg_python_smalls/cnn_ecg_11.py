@@ -281,7 +281,7 @@ model.add(MeanOverTime())
 # And a fully connected layer for the output
 model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
-
+"""
 def custom_cross_entropy_loss(y_true, y_pred):
     # y_true = tf.reshape(y_true, [-1])
     try:
@@ -292,10 +292,21 @@ def custom_cross_entropy_loss(y_true, y_pred):
         return loss
     except:
         return 0.5
-
+"""
+def custom_categorical_crossentropy(y_true, y_pred):
+    weights = tf.constant([1.0, 1.0, 2.0, 1.0]) # set higher weight for class 3
+    weights = tf.cast(weights, dtype=tf.float32)
+    
+    # convert y_true to one-hot encoded tensor
+    y_true_one_hot = tf.one_hot(tf.argmax(y_true, axis=-1), depth=4)
+    
+    # compute categorical cross-entropy loss
+    loss = tf.losses.categorical_crossentropy(y_true_one_hot, y_pred, weights=weights)
+    
+    return loss
 
 # Compile the model and run a batch through the network
-model.compile(loss=custom_cross_entropy_loss,
+model.compile(loss=custom_categorical_crossentropy,
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
               metrics=METRICS)
 
