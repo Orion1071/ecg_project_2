@@ -284,11 +284,14 @@ model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizer
 
 def custom_cross_entropy_loss(y_true, y_pred):
     # y_true = tf.reshape(y_true, [-1])
-    y_pred = tf.clip_by_value(y_pred, 1e-8, 1.0)
-    loss = - y_true * tf.math.log(y_pred) - (1.0 - y_true) * tf.math.log(1.0 - y_pred)
-    loss = tf.where(tf.equal(y_true, 3), loss * 10.0, loss)
-    loss = tf.reduce_mean(loss)
-    return loss
+    try:
+        y_pred = tf.clip_by_value(y_pred, 1e-8, 1.0)
+        loss = - y_true * tf.math.log(y_pred) - (1.0 - y_true) * tf.math.log(1.0 - y_pred)
+        loss = tf.where(tf.equal(y_true, 3), loss * 10.0, loss)
+        loss = tf.reduce_mean(loss)
+        return loss
+    except:
+        return 0.5
 
 
 # Compile the model and run a batch through the network
