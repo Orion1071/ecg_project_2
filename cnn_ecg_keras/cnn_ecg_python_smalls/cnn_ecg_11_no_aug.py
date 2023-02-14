@@ -32,7 +32,7 @@ from physionet_processing import (fetch_h5data, spectrogram,
 
 from physionet_generator import DataGenerator
 
-FILENAME = "11"
+FILENAME = "11_no_aug"
 
 print('Tensorflow version:', tf.__version__)
 # print('Keras version:', keras.__version__)
@@ -157,7 +157,7 @@ params = {'batch_size': batch_size,
           'n_classes': n_classes,
           'shuffle': True}
 
-train_generator = DataGenerator(h5file, partition['train'], labels, augment = True, **params)
+train_generator = DataGenerator(h5file, partition['train'], labels, augment = False, **params)
 val_generator = DataGenerator(h5file, partition['validation'], labels, augment = False, **params)
 
 #model define

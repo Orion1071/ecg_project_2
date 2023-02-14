@@ -32,7 +32,7 @@ from physionet_processing import (fetch_h5data, spectrogram,
 
 from physionet_generator import DataGenerator
 
-FILENAME = "11"
+FILENAME = "11_imbalance"
 
 print('Tensorflow version:', tf.__version__)
 # print('Keras version:', keras.__version__)
@@ -55,9 +55,6 @@ label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 # Open hdf5 file
 h5file =  h5py.File(hd_file, 'r')
 
-
-
-
 # Get a list of dataset names 
 dataset_list = list(h5file.keys())
 
@@ -66,64 +63,32 @@ label_df = pd.read_csv(label_file, header = None, names = ['name', 'label'])
 # Filter the labels that are in the small demo set
 label_df = label_df[label_df['name'].isin(dataset_list)]
 
-
 # Encode labels to integer numbers
 label_set = list(sorted(label_df.label.unique()))
 encoder = LabelEncoder().fit(label_set)
 label_set_codings = encoder.transform(label_set)
 label_df = label_df.assign(encoded = encoder.transform(label_df.label))
-labels = dict(zip(label_df.name, label_df.encoded))
 
-# print(label_df)
-encoded = label_df['encoded'].to_numpy()
-a, b = np.unique(encoded, return_counts=True)
-print(a)
-print(b)
-"""broad casting"""
-l0 = label_df['name'].to_numpy()[encoded == 0]
-l1 = label_df['name'].to_numpy()[encoded == 1]
-l2 = label_df['name'].to_numpy()[encoded == 2]
-l3 = label_df['name'].to_numpy()[encoded == 3]
-
-print(len(l0),len(l1),len(l2),len(l3))
-print(type(l2))
-
-""" Train data """
-train_data = np.array([])
-random_count_train = len(l3)
-train_data = np.concatenate((train_data,np.random.choice(l0, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,np.random.choice(l1, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,np.random.choice(l2, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,l3), axis=0)
-assert(len(train_data) == random_count_train * 4)
-print(len(train_data))
-
-
-""" Test data """
-test_data = np.array([])
-random_count_test = math.floor(len(l3) * 0.5)
-print(random_count_test)
-test_data = np.concatenate((test_data,np.random.choice(l0, size=random_count_test, replace=False)), axis=0)
-test_data = np.concatenate((test_data,np.random.choice(l1, size=random_count_test, replace=False)), axis=0)
-test_data = np.concatenate((test_data,np.random.choice(l2, size=random_count_test, replace=False)), axis=0)
-test_data = np.concatenate((test_data,np.random.choice(l3, size=random_count_test, replace=False)), axis=0)
-assert(len(test_data) == random_count_test * 4)
-print(len(test_data), random_count_test * 4)
 
 # Split the IDs in training and validation set
-test_split = 0.30
+test_split = 0.44
 idx = np.arange(label_df.shape[0])
-id_train, id_val, _, _ = train_test_split(train_data, train_data, 
+id_train, id_val, _, _ = train_test_split(idx, idx, 
                                         test_size = test_split,
                                         shuffle = True,
                                         random_state = 123)
-
-partition = { 'train' : id_train,
-             'validation': id_val,
-             'test' : test_data}
-
+val_split = 0.3
+id_val, id_test, _ , _ = train_test_split(id_val, id_val, 
+                                        test_size = val_split,
+                                        shuffle = True,
+                                        random_state = 123)
+# Store the ids and labels in dictionaries
+partition = {'train': list(label_df.iloc[id_train,].name), 
+            'validation': list(label_df.iloc[id_val,].name), 
+            'test': list(label_df.iloc[id_test,].name)}
 
 labels = dict(zip(label_df.name, label_df.encoded))
+
 with open(f"/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_testing/cnn_small_{FILENAME}_testlabel.pcl", "wb") as f:
     pickle.dump(partition["test"], f)
 
@@ -157,7 +122,7 @@ params = {'batch_size': batch_size,
           'n_classes': n_classes,
           'shuffle': True}
 
-train_generator = DataGenerator(h5file, partition['train'], labels, augment = True, **params)
+train_generator = DataGenerator(h5file, partition['train'], labels, augment = False, **params)
 val_generator = DataGenerator(h5file, partition['validation'], labels, augment = False, **params)
 
 #model define
