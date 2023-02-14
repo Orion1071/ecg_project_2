@@ -292,7 +292,7 @@ def custom_cross_entropy_loss(y_true, y_pred):
         return loss
     except:
         return 0.5
-"""
+
 def custom_categorical_crossentropy(y_true, y_pred):
     weights = tf.constant([1.0, 1.0, 2.0, 1.0]) # set higher weight for class 3
     weights = tf.cast(weights, dtype=tf.float32)
@@ -304,6 +304,23 @@ def custom_categorical_crossentropy(y_true, y_pred):
     loss = tf.losses.categorical_crossentropy(y_true_one_hot, y_pred, weights=weights)
     
     return loss
+"""
+def custom_categorical_crossentropy(y_true, y_pred):
+    # Define the weight for class 3
+    weight_class_3 = 5.0
+
+    # Calculate the normal categorical crossentropy loss
+    loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred)
+
+    # Extract the class labels from y_true and y_pred
+    true_class = tf.argmax(y_true, axis=-1)
+    pred_class = tf.argmax(y_pred, axis=-1)
+
+    # Calculate the loss mask to penalize predictions for class 3
+    loss_mask = tf.cast(tf.equal(true_class, 2), dtype=tf.float32) * weight_class_3
+
+    # Return the weighted loss
+    return loss + loss_mask
 
 # Compile the model and run a batch through the network
 model.compile(loss=custom_categorical_crossentropy,
