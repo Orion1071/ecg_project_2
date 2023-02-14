@@ -22,3 +22,4 @@ cnn_ecg_10 - depth 2, block 4, no mask, 641956 parameters, balanced data
 
 cnn_ecg_10_no_aug - depth 2, block 4, no mask, 641956 parameters, balanced data
 
+cnn_ecg_11- depth 2, block 4, no mask, 641956 parameters, class_weight
