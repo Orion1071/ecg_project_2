@@ -252,7 +252,7 @@ model.add(layers.MaxPool2D(pool_size=(3,3)))
 # model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
-model.add(layers.Flatten())
+# model.add(layers.Flatten())
 model.add(layers.Dense(4, activation='relu', kernel_regularizer = regularizers.l2(0.1)))
 
 
