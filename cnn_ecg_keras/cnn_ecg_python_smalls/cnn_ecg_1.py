@@ -144,7 +144,7 @@ model.add(layers.Conv2D(64, (5,5)))
 model.add(layers.Activation('relu'))
 model.add(layers.MaxPool2D(pool_size=(3,3)))
 
-model.add(layers.core.Masking(mask_value = 0.0))
+# model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
 model.add(layers.Flatten())
