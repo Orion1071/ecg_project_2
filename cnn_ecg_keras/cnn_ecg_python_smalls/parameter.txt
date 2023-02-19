@@ -23,3 +23,9 @@ cnn_ecg_10 - depth 2, block 4, no mask, 641956 parameters, balanced data
 cnn_ecg_10_no_aug - depth 2, block 4, no mask, 641956 parameters, balanced data
 
 cnn_ecg_11- depth 2, block 4, no mask, 641956 parameters, class_weight
+
+cnn_ecg_12- custom cnn, no mask, 641956 parameters, class_weight, custom loss - 50
+
+cnn_ecg_13 - depth 2, block 1, no mask, 23556 parameters, custom loss - 50
+
+cnn_ecg_14 - depth 2, block 4, no mask, 641956 parameters, binary classification

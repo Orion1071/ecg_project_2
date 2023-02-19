@@ -32,7 +32,7 @@ from physionet_processing import (fetch_h5data, spectrogram,
 
 from physionet_generator import DataGenerator
 
-FILENAME = "11"
+FILENAME = "14"
 
 print('Tensorflow version:', tf.__version__)
 # print('Keras version:', keras.__version__)
@@ -52,6 +52,59 @@ label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 # label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
 
+#v4
+
+import numpy as np
+import pandas as pd
+import os
+import h5py
+import matplotlib
+import math
+from matplotlib import pyplot as plt
+import pickle
+# %matplotlib inline
+# matplotlib.style.use('ggplot')
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+# Keras
+# import keras
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
+from tensorflow.keras import optimizers
+from tensorflow.keras import backend as K
+from tensorflow.keras import regularizers
+
+# Tensorflow
+
+from tensorflow.python.client import device_lib
+print(device_lib.list_local_devices())
+
+# Custom imports
+from physionet_processing import (fetch_h5data, spectrogram, 
+                                  special_parameters, transformed_stats)
+
+from physionet_generator import DataGenerator
+
+FILENAME = "14"
+
+print('Tensorflow version:', tf.__version__)
+# print('Keras version:', keras.__version__)
+
+#Open hdf5 file, load the labels and define training/validation splits
+
+# Data folder and hdf5 dataset file
+data_root = os.path.normpath('.')
+#data_root = os.path.normpath('/media/sf_vbshare/physionet_data/')
+#data_root = os.path.normpath('/home/ubuntu/projects/csproject')
+# hd_file = os.path.join(data_root, 'physio.h5')
+hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
+label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
+# mac 
+# hd_file = "/Users/macbookpro/Documents/physio.h5"
+# label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 # Open hdf5 file
 h5file =  h5py.File(hd_file, 'r')
 
@@ -74,41 +127,43 @@ label_set_codings = encoder.transform(label_set)
 label_df = label_df.assign(encoded = encoder.transform(label_df.label))
 labels = dict(zip(label_df.name, label_df.encoded))
 
-# print(label_df)
+
+# np.unique(label_df['encoded'].to_numpy(), return_counts=True)
 encoded = label_df['encoded'].to_numpy()
+for i,encode in enumerate(encoded):
+    if encode == 0 or encode == 1 or encode == 3:
+        encoded[i] = 0
+    elif encode == 2:
+        encoded[i] = 1
 a, b = np.unique(encoded, return_counts=True)
 print(a)
 print(b)
 """broad casting"""
+"""combine class 0, 1 ,3"""
 l0 = label_df['name'].to_numpy()[encoded == 0]
 l1 = label_df['name'].to_numpy()[encoded == 1]
-l2 = label_df['name'].to_numpy()[encoded == 2]
-l3 = label_df['name'].to_numpy()[encoded == 3]
 
-print(len(l0),len(l1),len(l2),len(l3))
-print(type(l2))
+print()
+assert( b[0]  == len(l0))
+print(len(l0), len(l1))
 
 """ Train data """
 train_data = np.array([])
-random_count_train = len(l3)
+random_count_train = len(l1)
 train_data = np.concatenate((train_data,np.random.choice(l0, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,np.random.choice(l1, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,np.random.choice(l2, size=random_count_train, replace=False)), axis=0)
-train_data = np.concatenate((train_data,l3), axis=0)
-assert(len(train_data) == random_count_train * 4)
+train_data = np.concatenate((train_data,l1), axis=0)
+assert(len(train_data) == random_count_train * 2)
 print(len(train_data))
 
 
 """ Test data """
 test_data = np.array([])
-random_count_test = math.floor(len(l3) * 0.5)
+random_count_test = math.floor(len(l1) * 0.5)
 print(random_count_test)
 test_data = np.concatenate((test_data,np.random.choice(l0, size=random_count_test, replace=False)), axis=0)
 test_data = np.concatenate((test_data,np.random.choice(l1, size=random_count_test, replace=False)), axis=0)
-test_data = np.concatenate((test_data,np.random.choice(l2, size=random_count_test, replace=False)), axis=0)
-test_data = np.concatenate((test_data,np.random.choice(l3, size=random_count_test, replace=False)), axis=0)
-assert(len(test_data) == random_count_test * 4)
-print(len(test_data), random_count_test * 4)
+assert(len(test_data) == random_count_test * 2)
+print(len(test_data), random_count_test * 2)
 
 # Split the IDs in training and validation set
 test_split = 0.30
@@ -121,6 +176,11 @@ id_train, id_val, _, _ = train_test_split(train_data, train_data,
 partition = { 'train' : id_train,
              'validation': id_val,
              'test' : test_data}
+print("------")
+print("train " , len(partition['train']))
+print("val ",len(partition['validation']))
+print("test ", len(partition['test']))
+
 
 
 labels = dict(zip(label_df.name, label_df.encoded))
@@ -137,7 +197,7 @@ max_length = 18286
 sequence_length = max_length
 spectrogram_nperseg = 64 # Spectrogram window
 spectrogram_noverlap = 32 # Spectrogram overlap
-n_classes = len(label_df.label.unique())
+n_classes = 2
 batch_size = 15
 
 # calculate image dimensions
@@ -225,9 +285,6 @@ n_blocks = 4 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
-print("Data Input Shape : ", input_shape)
-
-
 METRICS = [
       tf.keras.metrics.TruePositives(name='tp'),
       tf.keras.metrics.FalsePositives(name='fp'),
@@ -240,6 +297,7 @@ METRICS = [
       tf.keras.metrics.AUC(name='prc', curve='PR'), # precision-recall curve
 ]
 
+print("Data Input Shape : ", input_shape)
 model = Sequential()
 
 for block in range(n_blocks):
@@ -267,20 +325,7 @@ for block in range(n_blocks):
 model.add(layers.Reshape((-1, 480)))
 # model.add(layers.core.Masking(mask_value = 0.00))
 model.add(MeanOverTime())
-
-
-
-# Alternative: Replace averaging by LSTM
-
-# Insert masking layer to ignore zeros
-#model.add(layers.core.Masking(mask_value = 0.0))
-
-# Add LSTM layer with 3 neurons
-#model.add(layers.LSTM(200))
-# model.add(layers.Flatten())
-
-# And a fully connected layer for the output
-model.add(layers.Dense(4, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
+model.add(layers.Dense(2, activation='sigmoid', kernel_regularizer = regularizers.l2(0.1)))
 
 """
 def custom_cross_entropy_loss(y_true, y_pred):
@@ -305,10 +350,10 @@ def custom_categorical_crossentropy(y_true, y_pred):
     loss = tf.losses.categorical_crossentropy(y_true_one_hot, y_pred, weights=weights)
     
     return loss
-"""
+
 def custom_categorical_crossentropy(y_true, y_pred):
     # Define the weight for class 3
-    weight_class_3 = 50.0
+    weight_class_3 = 5.0
 
     # Calculate the normal categorical crossentropy loss
     loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred)
@@ -322,9 +367,10 @@ def custom_categorical_crossentropy(y_true, y_pred):
 
     # Return the weighted loss
     return loss + loss_mask
+""" 
 
 # Compile the model and run a batch through the network
-model.compile(loss=custom_categorical_crossentropy,
+model.compile(loss="categorical_crossentropy",
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
               metrics=METRICS)
 
@@ -334,7 +380,7 @@ h = model.fit(train_generator,
             steps_per_epoch = 50,
             epochs = 500,
             validation_data = val_generator,
-            validation_steps = 21, verbose=1)
+            validation_steps = 50, verbose=1)
 
 
 
@@ -356,6 +402,3 @@ tflite_model = converter.convert()
 
 with open(f'/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_{FILENAME}.tflite', 'wb+') as f:
     f.write(tflite_model)
-
-#tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
-

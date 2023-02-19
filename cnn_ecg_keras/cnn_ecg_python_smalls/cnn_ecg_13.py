@@ -47,7 +47,7 @@ data_root = os.path.normpath('.')
 hd_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/physio.h5"
 label_file = "/scratch/thurasx/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
-# mac 
+# # mac 
 # hd_file = "/Users/macbookpro/Documents/physio.h5"
 # label_file = "/Users/macbookpro/Documents/ecg_project_2/cnn_ecg_keras/REFERENCE-v3.csv"
 
@@ -122,8 +122,6 @@ partition = { 'train' : id_train,
              'validation': id_val,
              'test' : test_data}
 
-
-labels = dict(zip(label_df.name, label_df.encoded))
 with open(f"/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_testing/cnn_small_{FILENAME}_testlabel.pcl", "wb") as f:
     pickle.dump(partition["test"], f)
 
@@ -220,7 +218,7 @@ layer_filters = filters_start # Start with these filters
 filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 3 # Number of convolutional layers in each convBlock
+depth = 2 # Number of convolutional layers in each convBlock
 n_blocks = 1 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
@@ -293,7 +291,7 @@ def custom_categorical_crossentropy(y_true, y_pred):
 """
 def custom_categorical_crossentropy(y_true, y_pred):
     # Define the weight for class 3
-    weight_class_3 = 5.0
+    weight_class_3 = 50.0
 
     # Calculate the normal categorical crossentropy loss
     loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred)
@@ -317,9 +315,10 @@ model.compile(loss="categorical_crossentropy",
 model.summary()
 h = model.fit(train_generator,
             steps_per_epoch = 50,
-            epochs = 1000,
+            epochs = 500,
+            
             validation_data = val_generator,
-            validation_steps = 21, verbose=1)
+            validation_steps = 22, verbose=1)
 
 
 
