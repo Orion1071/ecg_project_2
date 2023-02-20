@@ -131,7 +131,7 @@ labels = dict(zip(label_df.name, label_df.encoded))
 # np.unique(label_df['encoded'].to_numpy(), return_counts=True)
 encoded = label_df['encoded'].to_numpy()
 for i,encode in enumerate(encoded):
-    if encode == 0 or encode == 1 or encode == 3:
+    if encode == 1: # or encode == 0 or encode == 3:
         encoded[i] = 0
     elif encode == 2:
         encoded[i] = 1
