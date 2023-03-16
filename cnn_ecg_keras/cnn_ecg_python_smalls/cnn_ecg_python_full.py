@@ -22,13 +22,13 @@ from keras import regularizers
 import tensorflow as tf
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
-FILENAME="4"
+
 # Custom imports
 from physionet_processing import (fetch_h5data, spectrogram, 
                                   special_parameters, transformed_stats)
 
 from physionet_generator import DataGenerator
-
+FILENAME="full"
 print('Tensorflow version:', tf.__version__)
 print('Keras version:', keras.__version__)
 
@@ -172,8 +172,8 @@ layer_filters = filters_start # Start with these filters
 filters_growth = 32 # Filter increase after each convBlock
 strides_start = (1, 1) # Strides at the beginning of each convBlock
 strides_end = (2, 2) # Strides at the end of each convBlock
-depth = 2 # Number of convolutional layers in each convBlock
-n_blocks = 2 # Number of ConBlocks
+depth = 4 # Number of convolutional layers in each convBlock
+n_blocks = 6 # Number of ConBlocks
 n_channels = 1 # Number of color channgels
 input_shape = (*dim, n_channels) # input shape for first layer
 
@@ -202,8 +202,8 @@ for block in range(n_blocks):
 
 # Remove the frequency dimension, so that the output can feed into LSTM
 # Reshape to (batch, time steps, filters)
-model.add(layers.Reshape((-1, 864)))
-# model.add(layers.core.Masking(mask_value = 0.01))
+model.add(layers.Reshape((-1, 224)))
+model.add(layers.core.Masking(mask_value = 0.0))
 model.add(MeanOverTime())
 
 # Alternative: Replace averaging by LSTM
@@ -230,7 +230,7 @@ model.compile(loss='categorical_crossentropy',
 
 h = model.fit(train_generator,
             steps_per_epoch = 50,
-            epochs = 1000,
+            epochs = 2000,
             validation_data = val_generator,
             validation_steps = 50, verbose=1)
 

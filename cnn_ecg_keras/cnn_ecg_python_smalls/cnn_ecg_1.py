@@ -32,6 +32,8 @@ from physionet_generator import DataGenerator
 print('Tensorflow version:', tf.__version__)
 print('Keras version:', keras.__version__)
 
+
+FILENAME="1"
 #Open hdf5 file, load the labels and define training/validation splits
 
 # Data folder and hdf5 dataset file
@@ -167,15 +169,21 @@ h = model.fit_generator(generator = train_generator,
 
 
 
+model.save(f'/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_{FILENAME}.h5')
 df = pd.DataFrame(h.history)
 df.head()
-df.to_csv('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_1.csv')
-
-# model.save('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_small_3.h5')
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
+df.to_csv(f'/scratch/thurasx/ecg_project_2/cnn_ecg_keras/history_small_{FILENAME}.csv')
+batch_size = 1
+input_shape = model.inputs[0].shape.as_list()
+input_shape[0] = batch_size
+func = tf.function(model).get_concrete_function(
+    tf.TensorSpec(input_shape, model.inputs[0].dtype))
+converter = tf.lite.TFLiteConverter.from_concrete_functions([func])
+# converter = tf.lite.TFLiteConverter.from_keras_model(model) 
+converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS] 
 tflite_model = converter.convert()
+# converter = tf.lite.TFLiteConverter.from_keras_model(model)
+# tflite_model = converter.convert()
 
-with open('/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_1.tflite', 'wb+') as f:
+with open(f'/scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_keras_tflites/keras_ecg_cnn_small_{FILENAME}.tflite', 'wb+') as f:
     f.write(tflite_model)
-
-#tsp -m python /scratch/thurasx/ecg_project_2/cnn_ecg_keras/cnn_ecg_python_small.py
